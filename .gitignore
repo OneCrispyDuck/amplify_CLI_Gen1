@@ -37,3 +37,9 @@ yarn-error.*
 *.tsbuildinfo
 
 app-example
+
+# Amplify local state and build artifacts
+amplify/#current-cloud-backend/
+amplify/.config/local-aws-info.json
+amplify/.config/local-env-info.json
+amplify/backend/**/build/
