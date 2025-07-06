@@ -1,10 +1,10 @@
+import { API } from '@aws-amplify/api'; // Add this import
 import React, { useEffect } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
-import { useSelector, useDispatch } from 'react-redux';
-import { addMarker, removeMarker, fetchMarkers } from '../slices/mapSlice';
-import { RootState, AppDispatch } from '../store';
-import { API } from 'aws-amplify'; // Add this import
+import { useDispatch, useSelector } from 'react-redux';
+import { addMarker, fetchMarkers, removeMarker } from '../slices/mapSlice';
+import { AppDispatch, RootState } from '../store';
 
 export default function MapScreen() {
   const dispatch = useDispatch<AppDispatch>();

@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
-import {API} from 'aws-amplify';
+import { API } from '@aws-amplify/api';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 // Defines and creates an async thunk to fetch markers from the API. This function will make an API call and handle the response or any errors
 export const fetchMarkers = createAsyncThunk(
