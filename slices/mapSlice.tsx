@@ -1,35 +1,61 @@
-import { API } from '@aws-amplify/api';
+import { get } from '@aws-amplify/api';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-// Defines and creates an async thunk to fetch markers from the API. This function will make an API call and handle the response or any errors
-export const fetchMarkers = createAsyncThunk(
+// ---------- Types ----------
+interface Marker {
+  id: string;
+  lat: number;
+  lng: number;
+}
+
+interface MapState {
+  markers: Marker[];
+}
+
+// ---------- Thunks ----------
+
+// Fetch all markers from the API
+export const fetchMarkers = createAsyncThunk<Marker[], void, { rejectValue: string }>(
   'map/fetchMarkers',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await API.get('markerApi', '/markers', {});
-      return response.data;
-    } catch (err) {
-      return rejectWithValue(err.message);
+      const response = await get({
+        apiName: 'markerAPI',
+        path: '/markers',
+      });
+
+      // Option 1: Trust (if you know your API returns an array)
+      // return response as unknown as Marker[];
+
+      // Option 2: Robust check
+      if (Array.isArray(response)) {
+        return response as Marker[];
+      } else if (response && Array.isArray((response as any).markers)) {
+        // In case your API returns { markers: [...] }
+        return (response as any).markers as Marker[];
+      } else {
+        return rejectWithValue('API did not return an array of markers');
+      }
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        return rejectWithValue(err.message);
+      }
+      return rejectWithValue('Unknown error');
     }
   }
 );
 
-// Define a type for the slice state
-interface MapState {
-  markers: { id: string; lat: number; lng: number }[];
-}
+// ---------- Slice ----------
 
-// Define the initial state using that type
 const initialState: MapState = {
   markers: [],
 };
 
-// Updated slice configuration
 export const mapSlice = createSlice({
   name: 'map',
   initialState,
   reducers: {
-    addMarker: (state, action: PayloadAction<{ id: string; lat: number; lng: number }>) => {
+    addMarker: (state, action: PayloadAction<Marker>) => {
       state.markers.push(action.payload);
     },
     removeMarker: (state, action: PayloadAction<string>) => {
@@ -46,6 +72,7 @@ export const mapSlice = createSlice({
       });
   },
 });
+
 export const { addMarker, removeMarker } = mapSlice.actions;
 
 export default mapSlice.reducer;

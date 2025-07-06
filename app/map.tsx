@@ -1,4 +1,4 @@
-import { API } from '@aws-amplify/api'; // Add this import
+import { del, post } from '@aws-amplify/api'; // ONLY import what you use
 import React, { useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
@@ -22,10 +22,18 @@ export default function MapScreen() {
       lng: longitude,
     };
     try {
-      await API.post('markerApi', '/markers', { body: newMarker });
+      await post({
+        apiName: 'markerAPI', // must match your Amplify REST API name (case-sensitive!)
+        path: '/markers',
+        options: { body: newMarker },
+      });
       dispatch(addMarker(newMarker));
-    } catch (error) {
-      console.error('Error adding marker:', error);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error('Error adding marker:', error.message);
+      } else {
+        console.error('Unknown error adding marker:', error);
+      }
     }
   };
 
@@ -47,10 +55,17 @@ export default function MapScreen() {
             coordinate={{ latitude: marker.lat, longitude: marker.lng }}
             onCalloutPress={async () => {
               try {
-                await API.del('markerApi', `/markers/${marker.id}`, {});
+                await del({
+                  apiName: 'markerAPI',
+                  path: `/markers/${marker.id}`,
+                });
                 dispatch(removeMarker(marker.id));
-              } catch (error) {
-                console.error('Error removing marker:', error);
+              } catch (error: unknown) {
+                if (error instanceof Error) {
+                  console.error('Error removing marker:', error.message);
+                } else {
+                  console.error('Unknown error removing marker:', error);
+                }
               }
             }}
           >
