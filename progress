@@ -1,0 +1,77 @@
+Project Mission:
+My project, MyApp_CLI_Gen1, aims to create a mobile application using Expo and React Native, integrated with AWS services via Amplify. The core functionality includes:
+
+- Marker Management: Users can view, add, and remove markers on a map.
+
+- Authentication: Users must authenticate via AWS Cognito to interact with the app's features.
+
+- State Management: Using Redux for managing the state of markers and possibly other app states.
+
+- Backend Integration: Utilizing AWS Amplify to connect to AWS services like DynamoDB for data storage and API Gateway for REST API.
+
+TODO:
+- learn expo: for native ios and android all in one
+Expo go: Test the app in a sandbox (tabs) for file system base routing
+- Implement react-native-maps
+- Redux setup
+- Mock test
+- Push to GitHub
+- Add better UI
+
+
+BACKEND
+Set-up Amplify CLI backend:
+- Container DONE
+- Authentication Email/Password flow (Default / OAuth credentials might cost me $$$) DONE
+- Add API: markerAPI /markers/{id}
+- AWS Lambda function name: manageMarkers
+- Choose the function template: CRUD function for DynamoDB (Intergration with API)
+Why: This template will provide a starting point for creating, reading, updating and deleting marker data in DynamoDB
+
+DynamoDB:
+- DynamoDB: Create a new DynamoDB table (name: markersTable)
+- id (type: string)
+- lat (latitude - type: number)
+- lng (longnitude - type: number)
+Why: Useful for representing geopgraphical coordinates (that can be stored as decimal numbers which fits well with the number data type in DynamoDB)
+
+ Current Environment: dev
+    
+┌──────────┬──────────────────────┬───────────┬───────────────────┐
+│ Category │ Resource name        │ Operation │ Provider plugin   │
+├──────────┼──────────────────────┼───────────┼───────────────────┤
+│ Storage  │ markersTable         │ Create    │ awscloudformation │
+├──────────┼──────────────────────┼───────────┼───────────────────┤
+│ Function │ manageMarkers        │ Create    │ awscloudformation │
+├──────────┼──────────────────────┼───────────┼───────────────────┤
+│ Api      │ markerAPI            │ Create    │ awscloudformation │
+├──────────┼──────────────────────┼───────────┼───────────────────┤
+│ Auth     │ myamplifycli0ba31264 │ No Change │ awscloudformation │
+└──────────┴──────────────────────┴───────────┴───────────────────┘
+✔ Are you sure you want to continue? (Y/n) · yes
+
+
+Deployment completed.
+Deploying root stack MyAmplifyCLI [ ========================---------------- ] 3/5
+	amplify-myamplifycli-dev-9a9c5 AWS::CloudFormation::Stack     UPDATE_IN_PROGRESS             Fri Jul 04 2025
+	storagemarkersTable            AWS::CloudFormation::Stack     CREATE_COMPLETE                Fri Jul 04 2025
+	authmyamplifycli0ba31264       AWS::CloudFormation::Stack     UPDATE_COMPLETE                Fri Jul 04 2025
+	functionmanageMarkers          AWS::CloudFormation::Stack     CREATE_COMPLETE                Fri Jul 04 2025
+	apimarkerAPI                   AWS::CloudFormation::Stack     CREATE_IN_PROGRESS             Fri Jul 04 2025
+Deployed storage markersTable [ ======================================== ] 1/1
+	DynamoDBTable                  AWS::DynamoDB::Table           CREATE_COMPLETE                Fri Jul 04 2025
+Deployed function manageMarkers [ ======================================== ] 3/3
+	LambdaExecutionRole            AWS::IAM::Role                 CREATE_COMPLETE                Fri Jul 04 2025
+	LambdaFunction                 AWS::Lambda::Function          CREATE_COMPLETE                Fri Jul 04 2025
+	lambdaexecutionpolicy          AWS::IAM::Policy               CREATE_IN_PROGRESS             Fri Jul 04 2025
+Deploying api markerAPI [ ================------------------------ ] 2/5
+	markerAPI                      AWS::ApiGateway::RestApi       CREATE_COMPLETE                Fri Jul 04 2025
+	functionmanageMarkersPermissi… AWS::Lambda::Permission        CREATE_COMPLETE                Fri Jul 04 2025
+
+Deployment state saved successfully.
+
+
+React Native App and Redux Intergration:
+- Set up Expo project (npx create-expo-app@latest MyApp_CLI_Gen1)
+
+
