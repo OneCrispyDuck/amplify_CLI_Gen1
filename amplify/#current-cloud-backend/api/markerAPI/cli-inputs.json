@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "paths": {
+    "/markers/{id}": {
+      "name": "/markers/{id}",
+      "lambdaFunction": "manageMarkers",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}

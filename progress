@@ -74,4 +74,15 @@ Deployment state saved successfully.
 React Native App and Redux Intergration:
 - Set up Expo project (npx create-expo-app@latest MyApp_CLI_Gen1)
 
+-----------------
+2. Implementing CRUD Operations:
+
+Fetch Markers: Implement fetching markers from your DynamoDB table:
+Add an action in mapSlice.tsx for fetching markers.
+Dispatch this action in MapScreen to load markers when the screen mounts.
+
+ createAsyncThunk from Redux Toolkit to handle asynchronous operations like fetching data from an API. Here's how to modify the mapSlice.tsx
+
+
+
 
