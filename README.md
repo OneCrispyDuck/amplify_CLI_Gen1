@@ -152,7 +152,7 @@ This project served as a valuable learning experience in integrating various tec
 
 **Project Setup:** The project is an Expo app created with create-expo-app, using file-based routing.
 
-**AWS Amplify Integration:** Integrated AWS Amplify into your project with:
+**AWS Amplify Integration:** Integrated AWS Amplify into the project with:
 - Authentication setup via AWS Cognito.
 - A DynamoDB table (markersTable) for storing map markers.
 - A Lambda function (manageMarkers) for backend logic.
